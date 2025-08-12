@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspectilogix "BIMS" - Enhanced Infrastructure Asset Management System</title>
+    <meta name="description" content="A comprehensive technical analysis of the features and functions of the Inspectilogix BIMS system for managing bridges, tunnels, and waterways, covering both desktop and mobile platforms.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+    <style>
+        /* --- General Styles & Variables --- */
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #ff8f00;
+            --text-color: #212121;
+            --light-gray: #f5f5f5;
+            --white-color: #ffffff;
+            --dark-gray: #616161;
+            --success-color: #2e7d32;
+            --overlay-color: rgba(0, 0, 0, 0.8);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --shadow-hover: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--white-color);
+            direction: ltr;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-color);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+        
+        section {
+            padding: 80px 0;
+            min-height: fit-content;
+        }
+        
+        section:nth-of-type(even) {
+            background: linear-gradient(135deg, var(--light-gray) 0%, #fafafa 100%);
+        }
+
+        /* --- Header & Navigation --- */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .navbar .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+
+        .navbar .nav-links li a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .navbar .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links li a:hover::after,
+        .navbar .nav-links li a.active::after {
+            width: 60%;
+        }
+
+        .navbar .nav-links li a:hover,
+        .navbar .nav-links li a.active {
+            color: var(--primary-color);
+            background: rgba(26, 35, 126, 0.05);
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            background: linear-gradient(135deg, 
+                rgba(26, 35, 126, 0.9) 0%, 
+                rgba(40, 53, 147, 0.8) 50%, 
+                rgba(26, 35, 126, 0.9) 100%),
+                url("https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3") center/cover;
+            height: 100vh;
+            color: var(--white-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, 
+                rgba(26, 35, 126, 0.3) 0%, 
+                rgba(26, 35, 126, 0.7) 100%);
+        }
+
+        #hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        #hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: linear-gradient(45deg, var(--accent-color), #ffb300);
+            color: var(--white-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(255, 143, 0, 0.3);
+            animation: fadeInUp 1s ease-out 0.6s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 143, 0, 0.4);
+        }
+
+        /* --- Enhanced Feature Card Styles --- */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-height: 420px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .feature-card-content {
+            padding: 35px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card h3 {
+            color: var(--secondary-color);
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .feature-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+        
+        .feature-card p {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            flex-grow: 1;
+            line-height: 1.8;
+        }
+
+        /* --- Enhanced Screenshot Container --- */
+        .screenshot-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #f0f0f0;
+        }
+
+        .screenshot {
+            width: 100%;
+            height: 100%;
+            background-size: contain; /* MODIFIED: Was 'cover' */
+            background-repeat: no-repeat; /* ADDED */
+            background-position: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* MODIFIED: Was 'cover' */
+            transition: var(--transition);
+        }
+
+        .screenshot-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(26, 35, 126, 0.8), 
+                rgba(40, 53, 147, 0.6));
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--white-color);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .screenshot-container:hover .screenshot-overlay {
+            opacity: 1;
+        }
+
+        .screenshot-container:hover .screenshot {
+            transform: scale(1.05);
+        }
+
+        .overlay-content {
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .screenshot-container:hover .overlay-content {
+            transform: translateY(0);
+        }
+
+        .overlay-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .overlay-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .overlay-subtext {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* --- Lightbox Styles --- */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-color);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            height: 90%;
+            margin: 5% auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: var(--transition);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: var(--white-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 80px; /* MODIFIED: Was 'right' */
+        }
+
+        .lightbox-next {
+            right: 80px; /* MODIFIED: Was 'left' */
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* MODIFIED: Was 'left' */
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: var(--white-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white-color);
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-counter {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .lightbox-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- Loading Animation --- */
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* --- AI Section Specifics --- */
+        #ai .feature-card h3 {
+             color: var(--success-color);
+        }
+
+        #ai .feature-card h3::after {
+            background: var(--success-color);
+        }
+
+        /* --- Value Section Specifics --- */
+        .value-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .value-item .icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, var(--accent-color), #ffb300);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .value-item h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .value-item p {
+            color: var(--dark-gray);
+            line-height: 1.7;
+        }
+        
+        /* --- Contact Section --- */
+        #contact {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white-color);
+        }
+
+        #contact h2 {
+            color: var(--white-color);
+        }
+
+        #contact h2::after {
+            background: var(--accent-color);
+        }
+
+        #contact p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        #contact a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        #contact a:hover {
+            color: var(--white-color);
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--text-color);
+            color: var(--white-color);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            h2 { font-size: 2.2rem; }
+            #hero h1 { font-size: 3rem; }
+            #hero p { font-size: 1.2rem; }
+            .feature-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+            .lightbox-prev { left: 20px; }
+            .lightbox-next { right: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            body { font-size: 16px; }
+            .navbar .container { flex-direction: column; }
+            .navbar .nav-links { margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+            h2 { font-size: 2rem; }
+            #hero h1 { font-size: 2.5rem; }
+            section { padding: 60px 0; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .screenshot-container { height: 200px; }
+            .lightbox-content { width: 95%; height: 95%; margin: 2.5% auto; }
+            .lightbox-nav { width: 40px; height: 40px; font-size: 1.2rem; }
+            .lightbox-prev { left: 10px; }
+            .lightbox-next { right: 10px; }
+        }
+
+        /* --- Print Styles for PDF Export --- */
+        @media print {
+            .navbar { position: static; box-shadow: none; }
+            section { break-inside: avoid; padding: 40px 0; }
+            .feature-card { break-inside: avoid; margin-bottom: 20px; }
+            .lightbox { display: none !important; }
+            body { font-size: 12pt; line-height: 1.5; }
+            h2 { font-size: 18pt; }
+            h3 { font-size: 14pt; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="#hero" class="logo">Inspectilogix BIMS</a>
+            <ul class="nav-links">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#desktop">Desktop Platform</a></li>
+                <li><a href="#mobile">Mobile App</a></li>
+                <li><a href="#ai">AI Capabilities</a></li>
+                <li><a href="#value">Strategic Value</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section id="hero">
+        <h1>Intelligent Management for Infrastructure Assets</h1>
+        <p>The Inspectilogix "BIMS" Integrated System: A comprehensive solution for managing the lifecycle of bridges, tunnels, and waterways with unparalleled efficiency and precision.</p>
+        <a href="#desktop" class="cta-button">Explore Features</a>
+    </section>
+
+    <main>
+        <section id="desktop">
+            <div class="container">
+                <h2>The Desktop Platform: The Central Command Center</h2>
+                <div class="feature-grid">
+                    
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Asset Inventory Management" data-description="A comprehensive database serving as a permanent digital record for each asset.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9%20%D8%AC%D8%B1%D8%AF%20%D8%A7%D9%84%D8%A3%D8%B5%D9%88%D9%84.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-database"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Asset Inventory Management</h3>
+                            <p>A comprehensive database serving as a permanent digital record for each asset, accommodating hundreds of detailed fields from identification and location data to engineering and construction specifications.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Fieldwork Planning & Synchronization" data-description="A logistics module for preparing work packages and assigning them to field inspectors.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D9%88%D9%85%D8%B2%D8%A7%D9%85%D9%86%D8%A9%20%D8%A7%D9%84%D8%B9%D9%85%D9%84%20%D8%A7%D9%84%D9%85%D9%8A%D8%AF%D8%A7%D9%86%D9%8A.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-tasks"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Fieldwork Planning & Sync</h3>
+                            <p>A logistics module for preparing "work packages" and assigning them to field inspectors, with full cloud synchronization for downloading tasks and uploading completed data.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Quality Assurance & Workflow Tracking" data-description="A central dashboard for monitoring the inspection lifecycle step-by-step.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%B6%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D8%AC%D9%88%D8%AF%D8%A9%20%D9%88%D9%85%D8%AA%D8%A7%D8%A8%D8%B9%D8%A9%20%D8%B3%D9%8A%D8%B1%20%D8%A7%D9%84%D8%B9%D9%85%D9%84.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-check-circle"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Quality Assurance & Workflow</h3>
+                            <p>A central dashboard for monitoring the inspection lifecycle step-by-step, with a multi-stage approval process and color-coded visual alerts to ensure the highest quality standards.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Performance & Risk Assessment" data-description="An advanced calculation engine that automatically generates Key Performance Indicators.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%A7%D9%84%D8%A3%D8%AF%D8%A7%D8%A1%20%D9%88%D8%A7%D9%84%D9%85%D8%AE%D8%A7%D8%B7%D8%B1.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Performance & Risk Assessment</h3>
+                            <p>An advanced engine that generates Key Performance Indicators (BCI for condition, CR for risk level), enabling risk-based maintenance strategies.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Automated Cost Estimation" data-description="An intelligent link between recorded defects and the Bill of Quantities (BoQ).">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%AA%D9%82%D8%AF%D9%8A%D8%B1%20%D8%A7%D9%84%D8%AA%D9%83%D8%A7%D9%84%D9%8A%D9%81%20%D8%A7%D9%84%D8%A2%D9%84%D9%8A.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-calculator"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Automated Cost Estimation</h3>
+                            <p>An intelligent link between recorded defects and the Bill of Quantities (BoQ), where required repair quantities and their costs are calculated automatically with high efficiency and accuracy.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Automated Reporting System" data-description="Generate professional, integrated PDF reports with a single click.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D9%86%D8%B8%D8%A7%D9%85%20%D8%AA%D9%82%D8%A7%D8%B1%D9%8A%D8%B1%20%D8%A2%D9%84%D9%8A.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-file-pdf"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Automated Reporting System</h3>
+                            <p>Generate professional, integrated PDF reports with a single click, compiling all inventory, inspection, photo, and analysis data into one delivery-ready document.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="mobile">
+            <div class="container">
+                <h2>The Mobile App: The Smart Field Companion</h2>
+                <div class="feature-grid">
+                    
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Offline Functionality" data-description="The application is built with an offline-first architecture.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%A7%D9%84%D8%B9%D9%85%D9%84%20%D8%AF%D9%88%D9%86%20%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%20%D8%A8%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-wifi"></i><i class="fas fa-slash" style="margin-left:-25px;"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Offline Functionality</h3>
+                            <p>Built with an offline-first architecture, storing all data locally to ensure inspectors can perform 100% of their tasks without an internet connection.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Structured & Accurate Data Collection" data-description="Custom electronic forms and standardized AASHTO-compliant lists.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%AC%D9%85%D8%B9%20%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA%20%D9%85%D9%86%D8%B8%D9%85%20%D9%88%D8%AF%D9%82%D9%8A%D9%82.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-clipboard-list"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Structured Data Collection</h3>
+                            <p>Custom electronic forms and standardized AASHTO-compliant lists ensure data accuracy and consistency. Integrates with the device's camera and GPS for easy documentation.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Routine Inspection Efficiency" data-description="A smart feature allows inspectors to review defects from the previous inspection.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D9%83%D9%81%D8%A7%D8%A1%D8%A9%20%D8%A7%D9%84%D9%81%D8%AD%D8%B5%20%D8%A7%D9%84%D8%B1%D9%88%D8%AA%D9%8A%D9%86%D9%8A.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-sync"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Routine Inspection Efficiency</h3>
+                            <p>A smart feature allows inspectors to review defects from the previous inspection and copy them to the current report, drastically reducing time spent on repetitive data entry.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Instant Risk Reporting (Flagging)" data-description="A dedicated module for creating simplified, independent reports for critical defects.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%A7%D9%84%D8%A5%D8%A8%D9%84%D8%A7%D8%BA%20%D8%A7%D9%84%D9%81%D9%88%D8%B1%D9%8A%20%D8%B9%D9%86%20%D8%A7%D9%84%D9%85%D8%AE%D8%A7%D8%B7%D8%B1jpg.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Instant Risk Reporting</h3>
+                            <p>A dedicated module for creating simplified, independent "Flag Reports" for critical defects. These are uploaded immediately to ensure critical information is delivered instantly.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section id="ai">
+            <div class="container">
+                <h2>AI Capabilities: From Data to Decisions</h2>
+                 <div class="feature-grid">
+                    
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Comparative Deterioration Analysis" data-description="AI compares current and past inspection data.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%82%D8%A7%D8%B1%D9%86%20%D9%84%D9%84%D8%AA%D8%AF%D9%87%D9%88%D8%B1.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Deterioration Analysis</h3>
+                            <p>AI compares current and past inspection data, providing an automated analytical commentary that highlights deterioration trends for each structural element.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card fade-in">
+                        <div class="screenshot-container" data-title="Smart Executive Summaries" data-description="Using Large Language Models to generate comprehensive executive summaries.">
+                            <div class="screenshot" style="background-image: url('https://bims2023.blob.core.windows.net/bims2023c/BIMS%20WEB/%D9%85%D9%84%D8%AE%D8%B5%D8%A7%D8%AA%20%D8%AA%D9%86%D9%81%D9%8A%D8%B0%D9%8A%D8%A9%20%D8%B0%D9%83%D9%8A%D8%A9.jpg');"></div>
+                            <div class="screenshot-overlay">
+                                <div class="overlay-content">
+                                    <div class="overlay-icon"><i class="fas fa-file-alt"></i></div>
+                                    <div class="overlay-text">Enlarge Image</div>
+                                    <div class="overlay-subtext">Click to view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Smart Executive Summaries</h3>
+                            <p>Using Large Language Models (like GPT-4), the system generates comprehensive executive summaries, transforming complex data into professional, presentation-ready text.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="value">
+            <div class="container">
+                <h2>Strategic Value for Government Entities</h2>
+                <div class="feature-grid">
+
+                    <div class="value-item fade-in">
+                        <div class="icon">🏛️</div>
+                        <h3>Standardization & Compliance</h3>
+                        <p>Ensures all inspection processes adhere to unified engineering standards (like AASHTO), enhancing data quality and reliability at a national level.</p>
+                    </div>
+
+                     <div class="value-item fade-in">
+                        <div class="icon">💰</div>
+                        <h3>Evidence-Based Financial Planning</h3>
+                        <p>Provides an objective and accurate basis for budget requests and allocation, maximizing the efficiency of public spending.</p>
+                    </div>
+
+                     <div class="value-item fade-in">
+                        <div class="icon">📈</div>
+                        <h3>Proactive Risk-Based Maintenance</h3>
+                        <p>Enables asset prioritization based on condition and risk level, ensuring the most critical issues are addressed first to extend asset life.</p>
+                    </div>
+
+                     <div class="value-item fade-in">
+                        <div class="icon">🔍</div>
+                        <h3>Transparency & Accountability</h3>
+                        <p>Creates a clear, auditable digital trail for every action, enhancing accountability and transparency across inspection and maintenance operations.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>For inquiries, demonstrations, or more information about the Inspectilogix BIMS platform, please get in touch.</p>
+                <p><strong>Email:</strong> <a href="mailto:khaled.ali.inspectilogix@gmail.com">khaled.ali.inspectilogix@gmail.com</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+966597799740">+966 59 779 9740</a></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Inspectilogix BIMS. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="lightbox-nav lightbox-prev" onclick="previousImage()">
+                <i class="fas fa-chevron-left"></i> </button>
+            <button class="lightbox-nav lightbox-next" onclick="nextImage()">
+                <i class="fas fa-chevron-right"></i> </button>
+            <img id="lightbox-image" class="lightbox-image" src="" alt="Enlarged view">
+            <div class="lightbox-info">
+                <div class="lightbox-counter">
+                    <span id="current-image">1</span> / <span id="total-images">12</span>
+                </div>
+                <div class="lightbox-title" id="lightbox-title">Image Title</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image gallery data
+        const images = [];
+        let currentImageIndex = 0;
+
+        // Collect all images on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const screenshotContainers = document.querySelectorAll('.screenshot-container');
+            
+            screenshotContainers.forEach((container, index) => {
+                const screenshot = container.querySelector('.screenshot');
+                const backgroundImage = getComputedStyle(screenshot).backgroundImage;
+                const imageUrl = backgroundImage.slice(5, -2); // Remove url(" and ")
+                const title = container.dataset.title || 'Image ' + (index + 1);
+                const description = container.dataset.description || '';
+                
+                images.push({
+                    url: imageUrl,
+                    title: title,
+                    description: description
+                });
+                
+                // Add click event listener
+                container.addEventListener('click', () => {
+                    openLightbox(index);
+                });
+                
+                // Add loading animation
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'loading';
+                loadingDiv.style.position = 'absolute';
+                loadingDiv.style.top = '50%';
+                loadingDiv.style.left = '50%';
+                loadingDiv.style.transform = 'translate(-50%, -50%)';
+                loadingDiv.style.display = 'none';
+                container.appendChild(loadingDiv);
+            });
+            
+            // Update total images counter
+            if (document.getElementById('total-images')) {
+                document.getElementById('total-images').textContent = images.length;
+            }
+            
+            // Add fade-in animation to elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = Math.random() * 0.5 + 's';
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.feature-card, .value-item').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // Lightbox functions
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const currentImageSpan = document.getElementById('current-image');
+            
+            // Show lightbox
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Load image
+            lightboxImage.src = images[index].url;
+            lightboxTitle.textContent = images[index].title;
+            currentImageSpan.textContent = index + 1;
+            
+            // Add loading state
+            lightboxImage.style.opacity = '0';
+            lightboxImage.onload = () => {
+                lightboxImage.style.opacity = '1';
+            };
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            openLightbox(currentImageIndex);
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            openLightbox(currentImageIndex);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft': // MODIFIED
+                    previousImage();
+                    break;
+                case 'ArrowRight': // MODIFIED
+                    nextImage();
+                    break;
+            }
+        });
+
+        // Close lightbox when clicking outside image
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active navigation link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.navbar .nav-links li a');
+
+        function updateActiveNav() {
+            let current = 'hero';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Throttled scroll event
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateActiveNav();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Touch support for lightbox navigation
+        let startX = null;
+        document.getElementById('lightbox-image').addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        document.getElementById('lightbox-image').addEventListener('touchend', (e) => {
+            if (startX === null) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) { // Swipe threshold
+                if (diff > 0) { // Swiped left
+                    nextImage();
+                } else { // Swiped right
+                    previousImage();
+                }
+            }
+            
+            startX = null;
+        });
+
+        // Enhanced scroll animations for navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 15px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
